@@ -43,97 +43,87 @@ function keydownEventHandler(e) {
     }
 
     if (e.keyCode == 73) { // up key
-        stage.addChild(fireball);
-        fireball.position.x = wizard.position.x;
-        fireball.position.y = wizard.position.y;
-		
-        shootFireballUp();
+        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
+        var newFireball = new PIXI.Sprite(fireballTexture);
+        newFireball.position.x = wizard.position.x;
+        newFireball.position.y = wizard.position.y;
+
+        stage.addChild(newFireball);
+
+        shootFireball(newFireball, 73);
+
     }
+
     if (e.keyCode == 75) { // down key
-        stage.addChild(fireball);
-        fireball.position.x = wizard.position.x;
-        fireball.position.y = wizard.position.y;
+        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
+        var newFireball = new PIXI.Sprite(fireballTexture);
+        newFireball.position.x = wizard.position.x;
+        newFireball.position.y = wizard.position.y;
 
-        shootFireballDown();
+        stage.addChild(newFireball);
+
+        shootFireball(newFireball, 75);
     }
+
     if (e.keyCode == 74) { // left key
-        stage.addChild(fireball);
-        fireball.position.x = wizard.position.x;
-        fireball.position.y = wizard.position.y;
 
-        shootFireballLeft();
+        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
+        var newFireball = new PIXI.Sprite(fireballTexture);
+        newFireball.position.x = wizard.position.x;
+        newFireball.position.y = wizard.position.y;
+
+        stage.addChild(newFireball);
+
+        shootFireball(newFireball, 74);
     }
-    if (e.keyCode == 76) { // right key
-        stage.addChild(fireball);
-        fireball.position.x = wizard.position.x;
-        fireball.position.y = wizard.position.y;
 
-        shootFireballRight();
+    if (e.keyCode == 76) { // right key
+
+        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
+        var newFireball = new PIXI.Sprite(fireballTexture);
+        newFireball.position.x = wizard.position.x;
+        newFireball.position.y = wizard.position.y;
+
+        stage.addChild(newFireball);
+
+        shootFireball(newFireball, 76);
     } 
 }
 
-function shootFireballUp() {
-    stage.addChild(fireball);
+function shootFireball(newFireball, keyCode) {
     setTimeout(function () {
-		
-        if (fireball.position.y < 0) {
-            stage.removeChild(fireball);
+
+        if (newFireball.position.y < 0 || newFireball.position.y > HEIGHT ||
+            newFireball.position.x < 0 || newFireball.position.x > WIDTH) {
+            stage.removeChild(newFireball);
 			return;
         }
 		
-        requestAnimationFrame(shootFireballUp);
-        fireball.position.y -= 10;
+        requestAnimationFrame(function (temp) {
 
-    }, 1000 / fps);
+            shootFireball(newFireball, keyCode);
 
-}
+        });
 
-function shootFireballDown() {
-    setTimeout(function () {
-        if (fireball.position.y > HEIGHT) {
-            stage.removeChild(fireball);
-			return;
+        if (keyCode == 73) {
+            newFireball.position.y -= 10;
         }
-		
-        requestAnimationFrame(shootFireballDown);
 
-        fireball.position.y += 10;
-
-
-    }, 1000 / fps);
-
-    
-}
-
-function shootFireballLeft() {
-    setTimeout(function () {
-		if (fireball.position.x < 0) {
-            stage.removeChild(fireball);
-		   return;
+        if (keyCode == 75) {
+            newFireball.position.y += 10;
         }
-        requestAnimationFrame(shootFireballLeft);
-        fireball.position.x -= 10;
-        
-    }, 1000 / fps);
 
-   
-}
-
-function shootFireballRight() {
-    setTimeout(function () {
-		if (fireball.position.x > WIDTH) {
-            stage.removeChild(fireball);
-			return;
+        if (keyCode == 74) {
+            newFireball.position.x -= 10;
         }
-		
-        requestAnimationFrame(shootFireballRight);
-        fireball.position.x += 10;
-        
+
+        if (keyCode == 76) {
+            newFireball.position.x += 10;
+        }
+
     }, 1000 / fps);
 
-    
 }
-
 
 document.addEventListener('keydown', keydownEventHandler);
 
