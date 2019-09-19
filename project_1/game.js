@@ -10,23 +10,22 @@ gameport.appendChild(renderer.view);
 
 var stage = new PIXI.Container();
 
-var texture1 = PIXI.Texture.fromImage("char2.png");
-var texture2 = PIXI.Texture.fromImage("fireball.png");
+var wizardTexture = PIXI.Texture.fromImage("Assets/char2.png");
+var monsterTextureLeft = PIXI.Texture.fromImage("Assets/monster_l.png");
+var monsterTextureRight = PIXI.Texture.fromImage("Assets/monster_r.png");
+	
 
-var wizard = new PIXI.Sprite(texture1);
-var fireball = new PIXI.Sprite(texture2);
+var wizard = new PIXI.Sprite(wizardTexture);
+var fireballTexture = PIXI.Texture.fromImage("Assets/fireball.png");
 
 wizard.anchor.x = 0.5;
-fireball.anchor.x = 0.5;
 
 wizard.anchor.y = 0.5;
-fireball.anchor.y = 0.5;
 
 wizard.position.x = 100;
 wizard.position.y = 100;
 
 stage.addChild(wizard);
-//stage.addChild(fireball);
 
 function keydownEventHandler(e) {
     if (e.keyCode == 87) { // W key
@@ -43,7 +42,6 @@ function keydownEventHandler(e) {
     }
 
     if (e.keyCode == 73) { // up key
-        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
         var newFireball = new PIXI.Sprite(fireballTexture);
         newFireball.position.x = wizard.position.x;
         newFireball.position.y = wizard.position.y;
@@ -55,7 +53,6 @@ function keydownEventHandler(e) {
     }
 
     if (e.keyCode == 75) { // down key
-        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
         var newFireball = new PIXI.Sprite(fireballTexture);
         newFireball.position.x = wizard.position.x;
         newFireball.position.y = wizard.position.y;
@@ -66,8 +63,6 @@ function keydownEventHandler(e) {
     }
 
     if (e.keyCode == 74) { // left key
-
-        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
         var newFireball = new PIXI.Sprite(fireballTexture);
         newFireball.position.x = wizard.position.x;
         newFireball.position.y = wizard.position.y;
@@ -78,8 +73,6 @@ function keydownEventHandler(e) {
     }
 
     if (e.keyCode == 76) { // right key
-
-        var fireballTexture = PIXI.Texture.fromImage("fireball.png");
         var newFireball = new PIXI.Sprite(fireballTexture);
         newFireball.position.x = wizard.position.x;
         newFireball.position.y = wizard.position.y;
@@ -132,6 +125,102 @@ function animate() {
    // wizard.rotation += 0.1;
     renderer.render(stage);
     
+}
+// Spawns a new monster every second
+setInterval(function spawnMonsters(){
+// 0 for going down, 1 for going up, 2 for going left, 3 for going right.
+	
+	var randomDirection = Math.floor(Math.random() * Math.floor(4));
+	
+	var monsterLeft = new PIXI.Sprite(monsterTextureLeft);
+	
+	var monsterRight = new PIXI.Sprite(monsterTextureRight);
+	
+	monsterLeft.anchor.x = 0.5;
+	monsterRight.anchor.x = 0.5;
+	monsterLeft.anchor.y = 0.5;
+	monsterRight.anchor.y = 0.5;
+	
+	// starting from top, going down
+	if(randomDirection == 0){
+		monsterLeft.position.y = 0;
+		monsterLeft.position.x = Math.floor(Math.random() * WIDTH);
+		stage.addChild(monsterLeft);
+		
+		sendMonster(monsterLeft, randomDirection);
+	}
+
+    // starting form bottom, going up
+	if(randomDirection == 1){
+        monsterRight.position.y = HEIGHT;
+        monsterRight.position.x = Math.floor(Math.random() * WIDTH);
+        stage.addChild(monsterRight);
+
+        sendMonster(monsterRight, randomDirection);
+	}
+	
+	// starting from the right, going left
+	if(randomDirection == 2){
+		monsterLeft.position.y = Math.floor(Math.random() * HEIGHT);
+        monsterLeft.position.x = WIDTH;
+
+		stage.addChild(monsterLeft);
+	
+		sendMonster(monsterLeft, randomDirection);
+	}
+
+    // starting from the left, going right
+    if (randomDirection == 3) {
+        monsterRight.position.y = 0;
+        monsterRight.position.x = Math.floor(Math.random() * WIDTH);
+
+        stage.addChild(monsterRight);
+
+        sendMonster(monsterRight, randomDirection);
+	}
+	
+	
+	
+}, 1000);
+
+// Sends monster in specific direction
+function sendMonster(monster, direction){
+	setTimeout(function () {
+		
+		if(monster.position.x < 0 || monster.position.x > WIDTH ||
+		monster.position.y < 0 || monster.position.y > HEIGHT){
+			stage.removeChild(monster);
+			return;
+		}
+		
+		requestAnimationFrame(function (temp) {
+			
+			sendMonster(monster, direction);
+			
+		});
+		
+		// send monster down
+		if(direction == 0)
+		{
+			monster.position.y += 10;
+		}
+		
+		// send monster up
+		if(direction == 1){
+			monster.position.y -= 10;
+		}
+		
+		// Send monster left
+		if(direction == 2) {
+			monster.position.x -= 10;
+		}
+		
+		// send monster right
+		if(direction == 3){
+			monster.position.x += 10;
+		}
+		
+	}, 1000/fps);
 }
 
 animate();
