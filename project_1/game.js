@@ -230,7 +230,7 @@ function sendMonster(monster, direction){
 			monster.position.x += 10;
 		}
 		// Check if the wizard hit a monster
-	    if(wizard.position.y >= monster.position.y - 25 && 
+	    /*if(wizard.position.y >= monster.position.y - 25 && 
 		   wizard.position.y <= monster.position.y + 25 &&
 	       wizard.position.x >= monster.position.x - 25 && 
 		   wizard.position.x <= monster.position.x + 25)
@@ -239,7 +239,7 @@ function sendMonster(monster, direction){
 			// and cancel everything.
 			stage.addChild(gameOverPic);
 			gameOver = true;
-			}
+			}*/
 		
 	}, 1000/fps);
 }
