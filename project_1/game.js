@@ -74,7 +74,7 @@ var monsterLeftArr = [monster1, monster2, monster3, monster4]
 var monsterRightArr = [monster5, monster6, monster7, monster8];
 var monsterLeftIndex = 0;
 var monsterRightIndex = 0;
-
+var numOfMonsters = 0;
 // Game over variable that will stop everything if the wizard is hit.
 var gameOver = false;
 
@@ -131,8 +131,8 @@ function fireballEventHandler(e) {
 }
 
 	// Spawns a new monster every second
-setInterval(function spawnMonsters(){
-	if(gameOver == false){
+setInterval(function spawnMonsters() {
+    if (gameOver == false && numOfMonsters != 7) {
 		var randomDirection = Math.floor(Math.random() * Math.floor(4));
 		if(monsterLeftIndex == 4){monsterLeftIndex = 0;}
 		if(monsterRightIndex == 4){monsterRightIndex = 0;}
@@ -186,7 +186,8 @@ setInterval(function spawnMonsters(){
 
 			stage.addChild(monsterRight);
 			sendMonster(monsterRight, randomDirection);
-		}
+        }
+        numOfMonsters++;
 	}
 	
 }, 1000); // End spawn monsters
@@ -197,7 +198,8 @@ function sendMonster(monster, direction){
 	setTimeout(function(){
 		if(monster.position.x < 0 || monster.position.x > WIDTH ||
 		monster.position.y < 0 || monster.position.y > HEIGHT){
-			stage.removeChild(monster);
+            stage.removeChild(monster);
+            numOfMonsters--;
 			return;
 		}
 		
@@ -228,16 +230,16 @@ function sendMonster(monster, direction){
 			monster.position.x += 10;
 		}
 		// Check if the wizard hit a monster
-		if(wizard.position.y >= monster.position.y - 25 && 
-			   wizard.position.y <= monster.position.y + 25 &&
-			   wizard.position.x >= monster.position.x - 25 && 
-			   wizard.position.x <= monster.position.x + 25)
-			   {
-				   // If the wizard hit a monster, show game over screen
-				   // and cancel everything.
-				  stage.addChild(gameOverPic);
-				  gameOver = true;
-				}
+	    if(wizard.position.y >= monster.position.y - 25 && 
+		   wizard.position.y <= monster.position.y + 25 &&
+	       wizard.position.x >= monster.position.x - 25 && 
+		   wizard.position.x <= monster.position.x + 25)
+		   {
+			// If the wizard hit a monster, show game over screen
+			// and cancel everything.
+			stage.addChild(gameOverPic);
+			gameOver = true;
+			}
 		
 	}, 1000/fps);
 }
@@ -276,31 +278,35 @@ function shootFireball(newFireball, keyCode) {
 		// Check if fireball has collided with a monster.
 		for(var i = 0; i < 4; i++){
 			// Check if fireball has hit any left-facing monsters.
-			if(newFireball.position.y >= monsterLeftArr[i].position.y - 25 && 
-			   newFireball.position.y <= monsterLeftArr[i].position.y + 25 &&
-			   newFireball.position.x >= monsterLeftArr[i].position.x - 25 && 
-			   newFireball.position.x <= monsterLeftArr[i].position.x + 25)
+			if(newFireball.position.y >= monsterLeftArr[i].position.y - 30 && 
+			   newFireball.position.y <= monsterLeftArr[i].position.y + 30 &&
+			   newFireball.position.x >= monsterLeftArr[i].position.x - 30 && 
+			   newFireball.position.x <= monsterLeftArr[i].position.x + 30)
 			   {
-				   newFireball.position.x += 400;
-				   stage.removeChild(monsterLeftArr[i]);// get rid of monster
-				   stage.removeChild(newFireball); // get rid of fireball
-				   // increment score & display
-				   score++;
-				   scoreText.text = "Monsters slain: " + score;
+                newFireball.position.x += 400;
+                //monster.position.x -= 400;
+                numOfMonsters -= 1;
+				stage.removeChild(monsterLeftArr[i]);// get rid of monster
+				stage.removeChild(newFireball); // get rid of fireball
+				// increment score & display
+				score++;
+				scoreText.text = "Monsters slain: " + score;
 				}
 			 // Check if fireball has hit any right-facing monsters.
-		    if(newFireball.position.y >= monsterRightArr[i].position.y - 25 && 
-			   newFireball.position.y <= monsterRightArr[i].position.y + 25 &&
-		       newFireball.position.x >= monsterRightArr[i].position.x - 25 && 
-		       newFireball.position.x <= monsterRightArr[i].position.x + 25)
+		    if(newFireball.position.y >= monsterRightArr[i].position.y - 30 && 
+			   newFireball.position.y <= monsterRightArr[i].position.y + 30 &&
+		       newFireball.position.x >= monsterRightArr[i].position.x - 30 && 
+		       newFireball.position.x <= monsterRightArr[i].position.x + 30)
 		       {
-				   newFireball.position.x += 400;
-				   stage.removeChild(monsterRightArr[i]); // get rid of monster
-				   stage.removeChild(newFireball); // get rid of fireball
-				   // increment score & display
-				   score++; 
-				   scoreText.text = "Monsters slain: " + score;
-				   }
+                newFireball.position.x += 400;
+                //monster.position.x -= 400;
+                numOfMonsters -= 1;
+				stage.removeChild(monsterRightArr[i]); // get rid of monster
+				stage.removeChild(newFireball); // get rid of fireball
+				// increment score & display
+				score++; 
+				scoreText.text = "Monsters slain: " + score;
+				}
 		}
     }, 1000 / fps);
 
