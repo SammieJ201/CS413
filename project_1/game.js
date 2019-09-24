@@ -35,10 +35,8 @@ gameOverPic.position.y = 200;
 var scoreText = new PIXI.Text("Monsters slain: " + score);
 scoreText.anchor.x = 0;
 scoreText.anchor.y = 1;
-
 scoreText.position.x = 0;
 scoreText.position.y = HEIGHT;
-
 stage.addChild(scoreText);
 
 // Load wizard and add to stage
@@ -71,7 +69,7 @@ var monster8 = new PIXI.Sprite(monsterTextureRight);
 
 // Add all monsters to monster arrays. I'm keeping this global so the wizard and 
 // fireballs have access to them.
-var monsterLeftArr = [monster1, monster2, monster3, monster4] 
+var monsterLeftArr = [monster1, monster2, monster3, monster4]; 
 var monsterRightArr = [monster5, monster6, monster7, monster8];
 var monsterLeftIndex = 0;
 var monsterRightIndex = 0;
@@ -174,27 +172,27 @@ setInterval(function spawnMonsters() {
 		
 		// starting from the right, going left
 		if(randomDirection == 2){
-			var monsterLeft = monsterLeftArr[monsterLeftIndex];
+			var monsterLeft2 = monsterLeftArr[monsterLeftIndex];
 			monsterLeftIndex++;
 			
-			monsterLeft.position.y = Math.floor(Math.random() * (HEIGHT-10));
-			monsterLeft.position.x = WIDTH;
+			monsterLeft2.position.y = Math.floor(Math.random() * (HEIGHT-10));
+			monsterLeft2.position.x = WIDTH;
 
-			stage.addChild(monsterLeft);
+			stage.addChild(monsterLeft2);
 			
-			sendMonster(monsterLeft, randomDirection);
+			sendMonster(monsterLeft2, randomDirection);
 		}
 
 		// starting from the left, going right
 		if (randomDirection == 3) {
-			var monsterRight = monsterRightArr[monsterRightIndex];
+			var monsterRight2 = monsterRightArr[monsterRightIndex];
 			monsterRightIndex++;
 
-			monsterRight.position.y = 0;
-			monsterRight.position.x = Math.floor(Math.random() * (HEIGHT-10));
+			monsterRight2.position.y = 0;
+			monsterRight2.position.x = Math.floor(Math.random() * (HEIGHT-10));
 
-			stage.addChild(monsterRight);
-			sendMonster(monsterRight, randomDirection);
+			stage.addChild(monsterRight2);
+			sendMonster(monsterRight2, randomDirection);
         }
         numOfMonsters++;
 	}
@@ -239,7 +237,7 @@ function sendMonster(monster, direction){
 			monster.position.x += 10;
 		}
 		// Check if the wizard hit a monster
-	    /*if(wizard.position.y >= monster.position.y - 25 && 
+	   /* if(wizard.position.y >= monster.position.y - 25 && 
 		   wizard.position.y <= monster.position.y + 25 &&
 	       wizard.position.x >= monster.position.x - 25 && 
 		   wizard.position.x <= monster.position.x + 25)
