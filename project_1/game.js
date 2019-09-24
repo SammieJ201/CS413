@@ -1,5 +1,6 @@
 /* Samantha Earl
-*
+* CS 413
+* Project 1 - Minimalism
 */
 
 var gameport = document.getElementById("gameport");
@@ -81,17 +82,25 @@ var gameOver = false;
 // Handles wizard movement.
 function wizardEventHandler(e) {
 	if(gameOver == false){	
-		if (e.keyCode == 87) { // W key
-			wizard.position.y -= 10;
+        if (e.keyCode == 87) { // W key
+            if (wizard.position.y != 0) { // making sure wizard stays inside stage
+                wizard.position.y -= 10;
+            }
 		}
-		if (e.keyCode == 83) { // S key
-			wizard.position.y += 10;
+        if (e.keyCode == 83) { // S key
+            if (wizard.position.y != HEIGHT) {// making sure wizard stays inside stage
+                wizard.position.y += 10;
+            }
 		}
-		if (e.keyCode == 65) { // A key
-			wizard.position.x -= 10;
+        if (e.keyCode == 65) { // A key
+            if (wizard.position.x != 0) {// making sure wizard stays inside stage
+                wizard.position.x -= 10;
+            }
 		}
-		if (e.keyCode == 68) { // D key
-			wizard.position.x += 10;
+        if (e.keyCode == 68) { // D key
+            if (wizard.position.x != WIDTH) {// making sure wizard stays inside stage
+                wizard.position.x += 10;
+            }
 		}
 	}
 }
