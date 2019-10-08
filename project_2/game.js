@@ -18,7 +18,10 @@ var mainMenuBackground, instructionsPage, gameBackground;
 var star, music;
 
 var beginStar = false;
-// Starts everything by loading sprite sheet.
+
+
+
+// Starts everything by loading sprite sheet.	
 function startMainMenu(){
 	PIXI.loader
 		.add("Assets/button_sprite_sheet.json")
@@ -95,9 +98,10 @@ function backButtonHandler()
 	mainMenuReady();
 }
 
+// Load sprite sheet with sprites for game and load startGame when ready.
 function startButtonHandler(e){
 	PIXI.loader
-		.add("Assets/sprite_sheet.json")
+		.add("Assets/dancer_sprite_sheet.json")
 		.load(startGame);
 }
 
@@ -111,48 +115,29 @@ function startGame(){
 	gameBackground = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/background.png"));
 	stage.addChild(gameBackground);
 	
-	/*wSprite = new PIXI.Sprite(PIXI.Texture.fromFrame("w.png"));
-	aSprite = new PIXI.Sprite(PIXI.Texture.fromFrame("a.png"));
-	sSprite = new PIXI.Sprite(PIXI.Texture.fromFrame("s.png"));
-	dSprite = new PIXI.Sprite(PIXI.Texture.fromFrame("d.png"));
-	*/
+	// Play background music
+	PIXI.sound.Sound.from({
+		url: 'Assets/music.mp3',
+		autoPlay: true,
+		loop: true,
+		complete: function() {
+			console.log('Sound finished');
+		}
+	});
+	
 	animateDancer();
 	
-	star = new PIXI.Sprite(PIXI.Texture.fromImage("star.png"));
 }
 
 // Loads dancing sprite and loops through 3 frames
 // NOTE: FIX LATER
 function animateDancer(){
-	/*var test = new PIXI.Sprite(PIXI.Texture.fromFrame("sprite1.png"));
-	test.scale.x = 1.5;
-	test.scale.y = 1.5;
-	test.anchor.x = 0.5;
-	test.anchor.y = 0.5;
-	test.position.x = WIDTH/2;
-	test.position.y = HEIGHT/2 + 50;
-	stage.addChild(test);
-	*/
-	
-	var frames = [];
-	
-	for(var i = 1; i <= 3; i++){
-		frames.push(PIXI.Texture.fromFrame('sprite' + i + '.png'));
-	}
-	
-	var runner = new PIXI.extras.MovieClip(frames);
-	runner.scale.x = 1.5;
-	runner.scale.y = 1.5;
-	runner.position.x = WIDTH/2;
-	runner.position.y = HEIGHT/2 + 50;
-	runner.animationSpeed = 0.1;
-	runner.play();
-	stage.addChild(runner);
-	
+	let sheet = PIXI.Loader.shared.resources["Assets/dancer_sprite_sheet.json"].spritesheet;
+	dancer = new PIXI.AnimatedSprite(sheet.animations["dancer"]);
 }
 
 // Load stars
-if(beginStar == true)
+/*if(beginStar == true)
 {
 	setInterval(function loadStars(){
 		// 0 for a, 2 for w, 3 for s, 4 for d
@@ -185,19 +170,12 @@ if(beginStar == true)
 			var new_y = star.position.y + 10;
 		}
 	}, 1000);	
-}
+}*/
 function renderStage(){
 	requestAnimationFrame(renderStage);
 	renderer.render(stage);
 }
 
-
-
 renderStage();
 startMainMenu();
 
-PIXI.sound.Sound.from({
-    url: 'Assests/background_music.mp3',
-    autoPlay: true,
-	loop: true
-});

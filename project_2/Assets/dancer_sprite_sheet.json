@@ -1,0 +1,47 @@
+{"frames": {
+
+"sprite_01.png":
+{
+	"frame": {"x":0,"y":0,"w":150,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":150},
+	"sourceSize": {"w":150,"h":150}
+},
+"sprite_02.png":
+{
+	"frame": {"x":150,"y":0,"w":150,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":150},
+	"sourceSize": {"w":150,"h":150}
+},
+"sprite_03.png":
+{
+	"frame": {"x":300,"y":0,"w":150,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":150},
+	"sourceSize": {"w":150,"h":150}
+},
+"star.png":
+{
+	"frame": {"x":0,"y":150,"w":82,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":82},
+	"sourceSize": {"w":82,"h":82}
+}},
+"animations": {
+	"sprite": ["sprite_01.png","sprite_02.png","sprite_03.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dancer_sprite_sheet.png",
+	"format": "RGBA8888",
+	"size": {"w":450,"h":232},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e95c63ae0a6d9a44ca45fd2f8a06c602:5dedad06e8deda8b68bbe698f97547bd:99429b4807bae135a524204a94034b19$"
+}
+}
