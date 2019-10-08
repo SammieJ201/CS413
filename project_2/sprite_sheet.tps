@@ -32,9 +32,9 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>pixijs</string>
+        <string>pixijs4</string>
         <key>textureFileName</key>
-        <filename>Assets/sprite_sheet.png</filename>
+        <filename>Assets/dancer_sprite_sheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>Assets/sprite_sheet.json</filename>
+                <filename>Assets/dancer_sprite_sheet.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -181,25 +181,23 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Assets/a.png</key>
-            <key type="filename">Assets/d.png</key>
-            <key type="filename">Assets/s.png</key>
-            <key type="filename">Assets/w.png</key>
+            <key type="filename">Assets/balloon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>25,25,50,50</rect>
+                <rect>15,15,30,30</rect>
                 <key>scale9Paddings</key>
-                <rect>25,25,50,50</rect>
+                <rect>15,15,30,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Assets/sprite1.png</key>
-            <key type="filename">Assets/sprite2.png</key>
-            <key type="filename">Assets/sprite3.png</key>
+            <key type="filename">Assets/sprite_01.png</key>
+            <key type="filename">Assets/sprite_02.png</key>
+            <key type="filename">Assets/sprite_03.png</key>
+            <key type="filename">Assets/sprite_04.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -228,14 +226,12 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>Assets/a.png</filename>
-            <filename>Assets/d.png</filename>
-            <filename>Assets/s.png</filename>
-            <filename>Assets/sprite1.png</filename>
-            <filename>Assets/sprite2.png</filename>
-            <filename>Assets/sprite3.png</filename>
+            <filename>Assets/sprite_01.png</filename>
+            <filename>Assets/sprite_02.png</filename>
+            <filename>Assets/sprite_03.png</filename>
             <filename>Assets/star.png</filename>
-            <filename>Assets/w.png</filename>
+            <filename>Assets/sprite_04.png</filename>
+            <filename>Assets/balloon.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

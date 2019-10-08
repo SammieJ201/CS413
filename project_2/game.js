@@ -16,11 +16,16 @@ PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 // All necessary variables throughout game
 var startButton, instructionsButton, backButton;
 var mainMenuBackground, instructionsPage, gameBackground;
-var star, music;
 
 var beginStar = false;
 
-
+// int and text display for score 
+var score = 0;
+var scoreText = new PIXI.Text("Score: " + score);
+scoreText.anchor.x = 0;
+scoreText.anchor.y = 0;
+scoreText.position.set(0,0);
+scoreText.style.fill = 0xffffff;
 
 // Starts everything by loading sprite sheet.	
 function startMainMenu(){
@@ -96,7 +101,7 @@ function backButtonHandler()
 }
 
 // Load sprite sheet with sprites for game and load startGame when ready.
-function startButtonHandler(e){
+function startButtonHandler(){
 	PIXI.loader
 		.add("Assets/dancer_sprite_sheet.json")
 		.load(startGame);
@@ -122,6 +127,7 @@ function startGame(){
 		}
 	});
 	
+	// Load and animate dancer sprites
 	var sheet = PIXI.Loader.shared.resources["Assets/dancer_sprite_sheet.json"].spritesheet;
 	var dancer = new PIXI.AnimatedSprite(sheet.animations["sprite"]);
 	dancer.anchor.set(0.5);
@@ -129,60 +135,134 @@ function startGame(){
 	dancer.play();
 	dancer.animationSpeed = 0.1;
 	stage.addChild(dancer);
-	
-	//beginStar = true;
+	stage.addChild(scoreText);
+	//spawnBalloons();
+	spawnStars();
+} 
+function spawnBalloons(){
+	setInterval(function temp(){
+		var randomSpot = Math.floor(Math.random() * Math.floor(WIDTH));
+		var balloon = new PIXI.Sprite(PIXI.Texture.fromFrame("balloon.png"));
+		balloon.anchor.set(0.5);
+		balloon.position.set(randomSpot, 0);
+		stage.addChild(balloon);
+		dropBalloon(balloon);
+	}, 1500);
 }
 
-// Load stars
-if(beginStar == true)
+function dropBalloon(balloon)
 {
-	var newStar = new PIXI.Sprite(PIXI.Texture.fromFrame("star.png"));
-	setInterval(function loadStars(){
-		// 0 for a, 2 for w, 3 for s, 4 for d
+	var new_x = Math.floor(Math.random() * Math.floor(WIDTH));
+	var new_y = HEIGHT;
+	createjs.Tween.get(balloon).to({alpha:1}, 1000).call(handleComplete, [balloon], this);
+}
+function handleComplete(balloon)
+{
+	stage.removeChild(balloon);
+}
+
+function spawnStars(){
+	setInterval(function temp(){
 		var randomSpot = Math.floor(Math.random() * Math.floor(4));
+		var star = new PIXI.Sprite(PIXI.Texture.fromFrame("star.png"));
+		star.anchor.set(0.5);
 		
-		if(randomSpot == 0)
-		{
-			newStar.position.x = 100;
-			//var new_x = 150;
-			//var new_y = star.position.y + 10;
+		if(randomSpot == 0){
+			star.position.set(70, 20);
 		}
 		
-		if(randomSpot == 1)
-		{
-			newStar.position.x = 250;
-			//var new_x = 150;
-			//var new_y = star.position.y + 10;
+		if(randomSpot == 1){
+			star.position.set(220, 20);
 		}
 		
-		if(randomSpot == 2)
-		{
-			newStar.position.x = 400;
-			//var new_x = 150;
-			//var new_y = star.position.y + 10;	
+		if(randomSpot == 2){
+			star.position.set(380, 20);
 		}
 		
-		if(randomSpot == 3)
-		{
-			newStar.position.x = 550;
-			//var new_x = 150;
-			//var new_y = star.position.y + 10;
+		if(randomSpot == 3){
+			star.position.set(540, 20);
 		}
 		
-		dropStar(newStar);
-	}, 1000);	
+		star.interactive = true;
+		star.on('mousedown', starEventHandler);
+		stage.addChild(star);
+		dropStar(star);
+		
+	}, 700);
 }
 
-function dropStar(newStar)
-{
+function dropStar(star){
 	setTimeout(function(){
-		requestAnimationFrame(function (temp){
-			dropStar(newStar);
+		if(star.position.x > HEIGHT){
+			stage.removeChild(star);
+			return;
+		}
+		
+		requestAnimationFrame(function (temp)
+		{
+			dropStar(star);
 		});
-	
-	newStar.position.y += 10;
+		
+		star.position.y += 10;
+
 	}, 1000/fps);
+	
+	
 }
+
+function starEventHandler()
+{
+	/*if (e.keyCode == 87) { // W key
+        if(this.position.y < HEIGHT 
+			&& this.position.y > HEIGHT/2 + 130
+			&& this.position.x < 260
+			&& this.position.x > 150){
+		score += 10;
+		scoreText.text = "Score: " + score;
+		stage.removeChild(this);
+		}
+	}
+	
+	if (e.keyCode == 83) { // S key
+		if(this.position.y < HEIGHT 
+			&& this.position.y > HEIGHT/2 + 130
+			/*&& this.position.x > 300
+			&& this.position.x < 450){
+		score += 10;
+		scoreText.text = "Score: " + score;
+		stage.removeChild(this);
+		}
+	}
+	if (e.keyCode == 65) { // A key
+		if(this.position.y < HEIGHT 
+			&& this.position.y > HEIGHT/2 + 130
+			/*&& this.position.x > 0
+			&& this.position.x < 130*{
+		score += 10;
+		scoreText.text = "Score: " + score;
+		stage.removeChild(this);
+		}
+	}
+	if (e.keyCode == 68) { // D key
+		if(this.position.y < HEIGHT 
+			&& this.position.y > HEIGHT/2 + 130
+			/*&& this.position.x > 470
+			&& this.position.x < WIDTH){
+		score += 10;
+		scoreText.text = "Score: " + score;
+		stage.removeChild(this);
+		}
+	}*/
+	
+	if(this.position.y < HEIGHT && this.position.y > HEIGHT/2 + 130)
+	{
+		score += 10;
+		scoreText.text = "Score: " + score;
+		stage.removeChild(this);
+	}
+	
+}	
+
 function renderStage(){
 	requestAnimationFrame(renderStage);
 	renderer.render(stage);
@@ -190,4 +270,3 @@ function renderStage(){
 
 renderStage();
 startMainMenu();
-
