@@ -182,6 +182,7 @@ function startGame(){
 	//spawnBalloons();
 	spawnStars();
 } 
+
 function spawnBalloons(){
 	setInterval(function temp(){
 		var randomSpot = Math.floor(Math.random() * Math.floor(WIDTH));
