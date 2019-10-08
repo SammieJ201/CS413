@@ -7,6 +7,7 @@
 var gameport = document.getElementById("gameport");
 var WIDTH = 600;
 var HEIGHT = 550;
+var fps = 15;
 var renderer = PIXI.autoDetectRenderer({ width: WIDTH, height: HEIGHT, backgroundColor: 0x3344ee});
 gameport.appendChild(renderer.view);
 var stage = new PIXI.Container();
@@ -38,17 +39,13 @@ function mainMenuReady(){
 	startButton = new PIXI.Sprite(PIXI.Texture.fromFrame("start_button.png"));
 	instructionsButton = new PIXI.Sprite(PIXI.Texture.fromFrame("instructions_button.png"));
 	
-	// Position start button
-	startButton.anchor.x = 0.5;
-	startButton.anchor.y = 0.5;
-	startButton.position.x = WIDTH/2;
-	startButton.position.y = 180;
+	// Position start button_sprite_sheet
+	startButton.anchor.set(0.5);
+	startButton.position.set(WIDTH/2, 180);
 	
 	// Position instructions button
-	instructionsButton.anchor.x = 0.5;
-	instructionsButton.anchor.y = 0.5;
-	instructionsButton.position.x = WIDTH/2;
-	instructionsButton.position.y = 360;
+	instructionsButton.anchor.set(0.5);
+	instructionsButton.position.set(WIDTH/2, 360);
 	
 	// Set both buttons as interactable and call necessary functions
 	// when clicked.
@@ -125,52 +122,67 @@ function startGame(){
 		}
 	});
 	
-	animateDancer();
+	var sheet = PIXI.Loader.shared.resources["Assets/dancer_sprite_sheet.json"].spritesheet;
+	var dancer = new PIXI.AnimatedSprite(sheet.animations["sprite"]);
+	dancer.anchor.set(0.5);
+	dancer.position.set(WIDTH/2, HEIGHT/2 + 90);
+	dancer.play();
+	dancer.animationSpeed = 0.1;
+	stage.addChild(dancer);
 	
-}
-
-// Loads dancing sprite and loops through 3 frames
-// NOTE: FIX LATER
-function animateDancer(){
-	let sheet = PIXI.Loader.shared.resources["Assets/dancer_sprite_sheet.json"].spritesheet;
-	dancer = new PIXI.AnimatedSprite(sheet.animations["dancer"]);
+	//beginStar = true;
 }
 
 // Load stars
-/*if(beginStar == true)
+if(beginStar == true)
 {
+	var newStar = new PIXI.Sprite(PIXI.Texture.fromFrame("star.png"));
 	setInterval(function loadStars(){
 		// 0 for a, 2 for w, 3 for s, 4 for d
 		var randomSpot = Math.floor(Math.random() * Math.floor(4));
 		
 		if(randomSpot == 0)
 		{
-			star.position.x = 100;
-			var new_x = 150;
-			var new_y = star.position.y + 10;
+			newStar.position.x = 100;
+			//var new_x = 150;
+			//var new_y = star.position.y + 10;
 		}
+		
 		if(randomSpot == 1)
 		{
-			star.position.x = 250;
-			var new_x = 150;
-			var new_y = star.position.y + 10;
+			newStar.position.x = 250;
+			//var new_x = 150;
+			//var new_y = star.position.y + 10;
 		}
 		
 		if(randomSpot == 2)
 		{
-			star.position.x = 400;
-			var new_x = 150;
-			var new_y = star.position.y + 10;	
+			newStar.position.x = 400;
+			//var new_x = 150;
+			//var new_y = star.position.y + 10;	
 		}
 		
 		if(randomSpot == 3)
 		{
-			star.position.x = 550;
-			var new_x = 150;
-			var new_y = star.position.y + 10;
+			newStar.position.x = 550;
+			//var new_x = 150;
+			//var new_y = star.position.y + 10;
 		}
+		
+		dropStar(newStar);
 	}, 1000);	
-}*/
+}
+
+function dropStar(newStar)
+{
+	setTimeout(function(){
+		requestAnimationFrame(function (temp){
+			dropStar(newStar);
+		});
+	
+	newStar.position.y += 10;
+	}, 1000/fps);
+}
 function renderStage(){
 	requestAnimationFrame(renderStage);
 	renderer.render(stage);
