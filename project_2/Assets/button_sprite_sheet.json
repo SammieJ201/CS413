@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":109,"h":82},
 	"sourceSize": {"w":109,"h":82}
 },
-"instructions_button.png":
+"credits_button.png":
 {
 	"frame": {"x":109,"y":0,"w":404,"h":82},
 	"rotated": false,
@@ -16,9 +16,17 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":82},
 	"sourceSize": {"w":404,"h":82}
 },
-"start_button.png":
+"instructions_button.png":
 {
 	"frame": {"x":513,"y":0,"w":404,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":82},
+	"sourceSize": {"w":404,"h":82}
+},
+"start_button.png":
+{
+	"frame": {"x":917,"y":0,"w":404,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":82},
@@ -29,8 +37,8 @@
 	"version": "1.0",
 	"image": "button_sprite_sheet.png",
 	"format": "RGBA8888",
-	"size": {"w":917,"h":82},
+	"size": {"w":1321,"h":82},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:bc72f81f92bc178b61142866b981e693:7682cb5d092ef51a71c82c89fae1c8eb:97fc21a43e418bd4a4a16dec609edc2f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:9e744e560c1c44ba968738f53bc26db4:b7465eb142628e8e1940b9704b1f4950:97fc21a43e418bd4a4a16dec609edc2f$"
 }
 }

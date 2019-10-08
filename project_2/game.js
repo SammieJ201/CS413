@@ -14,8 +14,8 @@ var stage = new PIXI.Container();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
 // All necessary variables throughout game
-var startButton, instructionsButton, backButton;
-var mainMenuBackground, instructionsPage, gameBackground;
+var startButton, instructionsButton, backButtonInst, backButtonCred, creditsButton;
+var mainMenuBackground, instructionsPage, gameBackground, endBackground, creditsBackground;
 
 var beginStar = false;
 
@@ -27,6 +27,7 @@ scoreText.anchor.y = 0;
 scoreText.position.set(0,0);
 scoreText.style.fill = 0xffffff;
 
+var gameOver = false;
 // Starts everything by loading sprite sheet.	
 function startMainMenu(){
 	PIXI.loader
@@ -43,26 +44,33 @@ function mainMenuReady(){
 	// Load sprites for start and instructions button from sprite sheet.
 	startButton = new PIXI.Sprite(PIXI.Texture.fromFrame("start_button.png"));
 	instructionsButton = new PIXI.Sprite(PIXI.Texture.fromFrame("instructions_button.png"));
+	creditsButton = new PIXI.Sprite(PIXI.Texture.fromFrame("credits_button.png"));
 	
-	// Position start button_sprite_sheet
+	// Position start button
 	startButton.anchor.set(0.5);
 	startButton.position.set(WIDTH/2, 180);
 	
 	// Position instructions button
 	instructionsButton.anchor.set(0.5);
-	instructionsButton.position.set(WIDTH/2, 360);
+	instructionsButton.position.set(WIDTH/2, 320);
 	
-	// Set both buttons as interactable and call necessary functions
+	// Position credits button
+	creditsButton.anchor.set(0.5);
+	creditsButton.position.set(WIDTH/2, 460);
+	
+	// Set all buttons as interactable and call necessary functions
 	// when clicked.
-	instructionsButton.interactive = true;
-	instructionsButton.on('mousedown', instructButtonHandler);
 	startButton.interactive = true;
 	startButton.on('mousedown', startButtonHandler);
+	instructionsButton.interactive = true;
+	instructionsButton.on('mousedown', instructButtonHandler);
+	creditsButton.interactive = true;
+	creditsButton.on('mousedown', creditsButtonHandler);
 	
-	// Add both buttons to stage
+	// Add buttons to stage
 	stage.addChild(startButton);
 	stage.addChild(instructionsButton);
-	
+	stage.addChild(creditsButton);
 }
 
 
@@ -73,29 +81,63 @@ function instructButtonHandler(e){
 	stage.removeChild(mainMenuBackground);
 	stage.removeChild(startButton);
 	stage.removeChild(instructionsButton);
+	stage.removeChild(creditsButton);
 	
 	// Load and add instructions page sprite to stage
-	instructionsPage = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/instructions_page.png"));
+	instructionsPage = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/instructions_page2.png"));
 	stage.addChild(instructionsPage);
+			
+	// Load back button and position
+	backButtonInst = new PIXI.Sprite(PIXI.Texture.fromFrame("back_button.png"));
+	backButtonInst.position.x = 0;
+	backButtonInst.position.y = 0;
+		
+	// Set back button as interactable and send to backButtonHandler when clicked.
+	backButtonInst.interactive = true;
+	backButtonInst.on('mousedown', backButtonInstHandler);
+	// Add back button to stage.
+	stage.addChild(backButtonInst);
+}
+
+// This is called when the credits button is clicked - loads credits page and
+// back button
+function creditsButtonHandler(e){
+	// Remove background and buttons from main menu.
+	stage.removeChild(mainMenuBackground);
+	stage.removeChild(startButton);
+	stage.removeChild(instructionsButton);
+	stage.removeChild(creditsButton);
+	
+	// Load and add instructions page sprite to stage
+	creditsBackground = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/credits_screen.png"));
+	stage.addChild(creditsBackground);
 	
 	// Load back button and position
-	backButton = new PIXI.Sprite(PIXI.Texture.fromFrame("back_button.png"));
-	backButton.position.x = 0;
-	backButton.position.y = 0;
-	
+	backButtonCred = new PIXI.Sprite(PIXI.Texture.fromFrame("back_button.png"));
+	backButtonCred.position.x = 0;
+	backButtonCred.position.y = 0;
+		
 	// Set back button as interactable and send to backButtonHandler when clicked.
-	backButton.interactive = true;
-	backButton.on('mousedown', backButtonHandler);
-	
+	backButtonCred.interactive = true;
+	backButtonCred.on('mousedown', backButtonCreditHandler);
 	// Add back button to stage.
-	stage.addChild(backButton);
+	stage.addChild(backButtonCred);
 }
 
 // Removes everything from instructions page and reloads main menu.
-function backButtonHandler()
+function backButtonInstHandler()
 {
 	stage.removeChild(instructionsPage);
-	stage.removeChild(backButton);
+	stage.removeChild(backButtonInst);
+	
+	mainMenuReady();
+}
+
+// Removes everything from credits page and reloads main menu.
+function backButtonCreditHandler()
+{
+	stage.removeChild(creditsBackground);
+	stage.removeChild(backButtonCred);
 	
 	mainMenuReady();
 }
@@ -112,9 +154,10 @@ function startGame(){
 	stage.removeChild(mainMenuBackground);
 	stage.removeChild(startButton);
 	stage.removeChild(instructionsButton);
+	stage.removeChild(creditsButton);
 	
 	// Load and display game background
-	gameBackground = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/background.png"));
+	gameBackground = new PIXI.Sprite(PIXI.Texture.fromImage("Assets/background2.png"));
 	stage.addChild(gameBackground);
 	
 	// Play background music
@@ -156,13 +199,15 @@ function dropBalloon(balloon)
 	var new_y = HEIGHT;
 	createjs.Tween.get(balloon).to({alpha:1}, 1000).call(handleComplete, [balloon], this);
 }
+
 function handleComplete(balloon)
 {
 	stage.removeChild(balloon);
 }
 
 function spawnStars(){
-	setInterval(function temp(){
+	if(gameOver == false){
+		setInterval(function temp(){
 		var randomSpot = Math.floor(Math.random() * Math.floor(4));
 		var star = new PIXI.Sprite(PIXI.Texture.fromFrame("star.png"));
 		star.anchor.set(0.5);
@@ -188,7 +233,9 @@ function spawnStars(){
 		stage.addChild(star);
 		dropStar(star);
 		
-	}, 700);
+		}, 700);
+	}
+
 }
 
 function dropStar(star){
